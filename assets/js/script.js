@@ -25,11 +25,11 @@ class question{
 
 var quizQuestions = [];
 //var playerHealth = 50;
-
+var health = 50;
 
 //object that keeps track of game's state
 var gameState  = {
-    playerHealth : 50,
+    playerHealth : health,
     playerAttack : 20,
     opponentHealth : 0,
     opponentAttack : 0,
@@ -41,6 +41,8 @@ var gameState  = {
     opponentHasDied : false,
     playerHasDied : false,
     numberOfRounds : 3,
+    pointsForKillingOpponent: 0,
+    playerScore: 0,
 }
 
 var resetContainerElement = function(){
@@ -69,6 +71,10 @@ var buildStartScreen = function(){
 var setRoundState = function(){
     gameState.opponentHealth = Math.floor(Math.random()*11 + 30);//opponent health is between 30 and 40 points
     gameState.opponentAttack = Math.floor(Math.random()*11 + 10);//opponent attack is between 10 and 20 points
+    gameState.pointsForKillingOpponent = (gameState.opponentHealth + gameState.opponentAttack)/2;
+    gameState.opponentHasDied = false;
+    gameState.playerHealth = health;
+    gameState.playerHasDied = false;
 }
 
 var displayGameState = function(){
@@ -103,15 +109,20 @@ var displayGameState = function(){
     continueBtn.textContent = "Continue";
     continueBtn.className = "continue-btn";
     quizContainerEl.appendChild(continueBtn);
+    gameState.questionCounter++;
 }
 
-var endRound = function(){
 
-}
-
-var buildGameOverScreen = function(){
+var buildGameOverScreen = function(isGameOver){
     //start over button
     //enter initials
+    resetContainerElement();
+    if(isGameOver){
+        
+    }
+    else{
+
+    }
 }
 
 var buildHighScoreScreen  = function(){
@@ -181,7 +192,57 @@ var listQuizQuestions = function(){
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("And","incorrect"), new answer("Not","incorrect"), new answer("Or","correct"), new answer("Is Less Than","incorrect")];
     quizQuestions.push(q);
+
+    var q = new question();
+    q.text = "Which of the following answers is shorthand for i = i + 1?"
+    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("i--","incorrect"), new answer("i++","correct"), new answer("i+=1","correct"), new answer("i-=1","incorrect")];
+    quizQuestions.push(q);
+
+    var q = new question();
+    q.text = "Which of the following is a primitive type?"
+    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("String","correct"), new answer("Array","incorrect"), new answer("Function","incorrect"), new answer("Object","incorrect")];
+    quizQuestions.push(q);
+
+    var q = new question();
+    q.text = "Which property can be used to change the background color of an HTML element?"
+    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("background-color","correct"), new answer("color","incorrect"), new answer("background-image","incorrect"), new answer("background-size","incorrect")];
+    quizQuestions.push(q);
+
     console.log(quizQuestions);
+}
+
+var endGame = function(){
+    console.log("the game has ended.");
+    buildGameOverScreen();
+}
+
+var endRound = function(){
+    resetContainerElement();
+
+    var h2El = document.createElement("h2");
+    h2El.textContent = "Round " + gameState.roundCounter + " has ended: "
+    quizContainerEl.appendChild(h2El);
+
+    var pEl = document.createElement("p");
+    pEl.textContent = "You have " + gameState.playerHealth + " hit points left.";
+    quizContainerEl.appendChild(pEl);
+
+    var pEl = document.createElement("p");
+    pEl.textContent = "Your current score is: " + gameState.playerScore + " points.";
+    quizContainerEl.appendChild(pEl);    
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Start Next Round";
+    buttonEl.className = "continue-btn";
+    quizContainerEl.appendChild(buttonEl);
+    gameState.roundCounter++;
+    
 }
 
 var updateGameState = function(isCorrect){
@@ -191,7 +252,9 @@ var updateGameState = function(isCorrect){
         gameState.thisQuestionPlayerAttack = gameState.playerAttack + attackBonus;
         gameState.opponentHealth -= gameState.thisQuestionPlayerAttack;
         if(gameState.opponentHealth <= 0){
-            gameState.opponentHasDied;
+            gameState.opponentHasDied = true;
+            gameState.playerScore += gameState.pointsForKillingOpponent;
+            //console.log(gameState.opponentHasDied, gameState.pointsForKillingOpponent);
         }
     }
     else{
@@ -199,7 +262,7 @@ var updateGameState = function(isCorrect){
         gameState.thisQuestionOpponentAttack = gameState.opponentAttack + attackBonus;
         gameState.playerHealth -= gameState.thisQuestionOpponentAttack;
         if(gameState.playerHealth <= 0){
-            gameState.playerHasDied;
+            gameState.playerHasDied = true;
         }
     }
 }
@@ -227,9 +290,20 @@ mainEl.addEventListener("click",function(event){
         buildQuizQuestion(gameState.questionCounter-1);
     }
     else if(event.target.className == "continue-btn"){
-        gameState.questionCounter++;
-        buildQuizQuestion(gameState.questionCounter-1);
-
+        if(gameState.opponentHasDied){
+            endRound(false);
+            console.log(gameState.roundCounter, gameState.numberOfRounds);
+            if(gameState.roundCounter == gameState.numberOfRounds){
+                endGame();
+            }
+            setRoundState();
+        }
+        else if(gameState.playerHasDied){
+            endGame(true);
+        }
+        else{
+            buildQuizQuestion(gameState.questionCounter-1);
+        }
     }
 });
 
