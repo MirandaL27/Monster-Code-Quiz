@@ -30,9 +30,14 @@ var quizQuestions = [];
 //object that keeps track of game's state
 var gameState  = {
     playerHealth : 50,
+    playerAttack : 20,
     opponentHealth : 0,
     opponentAttack : 0,
     questionCounter : 1,
+    roundCounter : 1,
+    answerWasCorrect : true,
+    thisQuestionPlayerAttack: 0,
+    thisQuestionOpponentAttack:0,
 }
 
 var resetContainerElement = function(){
@@ -45,6 +50,45 @@ var resetContainerElement = function(){
 var buildStartScreen = function(){
     //start button
     //basic instructions
+    resetContainerElement();
+    var h2El = document.createElement("h2");
+    h2El.textContent = "Monster Code Quiz"
+    quizContainerEl.appendChild(h2El);
+    var pEl = document.createElement("p");
+    pEl.textContent = "Answer the quiz questions to attack the monsters. Answering harder questions correctly will earn you extra attack. Be careful!  The monsters will attack you if you answer a question incorrectly! Complete all of the rounds to win the game!";
+    quizContainerEl.appendChild(pEl);
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Start Game";
+    buttonEl.className = "start-btn";
+    quizContainerEl.appendChild(buttonEl);
+}
+
+var setRoundState = function(){
+    gameState.opponentHealth = Math.floor(Math.random()*11 + 30);//opponent health is between 30 and 40 points
+    gameState.opponentAttack = Math.floor(Math.random()*11 + 10);//opponent attack is between 10 and 20 points
+}
+
+var displayGameState = function(){
+    resetContainerElement();
+    var h2El = document.createElement("h2");
+    h2El.textContent = "Round 1 Update:"
+    quizContainerEl.appendChild(h2El);
+    var pEl = document.createElement("p");
+    pEl.textContent = "You have " + gameState.playerHealth + " health points left.";
+    quizContainerEl.appendChild(pEl);
+    var pEl = document.createElement("p");
+    if(gameState.answerWasCorrect){
+        pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
+    }
+    else{
+        pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
+    }
+    
+    quizContainerEl.appendChild(pEl);
+}
+
+var endRound = function(){
+    
 }
 
 var buildGameOverScreen = function(){
@@ -124,13 +168,17 @@ var listQuizQuestions = function(){
 
 
 listQuizQuestions();
-buildQuizQuestion(gameState.questionCounter-1);
+buildStartScreen();
 
 //add event listener to quiz answers on click
 
 mainEl.addEventListener("click",function(event){
     if(event.target.className == "quiz-answer"){
-        console.log("answer clicked");
         buildQuizQuestion(gameState.questionCounter-1);
     } 
+    else if(event.target.className == "start-btn"){
+        setRoundState();
+        buildQuizQuestion(gameState.questionCounter-1);
+    }
 });
+
