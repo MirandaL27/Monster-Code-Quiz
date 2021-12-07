@@ -24,7 +24,6 @@ class question{
 }
 
 var quizQuestions = [];
-//var playerHealth = 50;
 var health = 50;
 
 //object that keeps track of game's state
@@ -73,7 +72,7 @@ var setRoundState = function(){
     gameState.opponentAttack = Math.floor(Math.random()*11 + 10);//opponent attack is between 10 and 20 points
     gameState.pointsForKillingOpponent = (gameState.opponentHealth + gameState.opponentAttack)/2;
     gameState.opponentHasDied = false;
-    gameState.playerHealth = health;
+    //gameState.playerHealth = health;
     gameState.playerHasDied = false;
 }
 
@@ -93,7 +92,7 @@ var displayGameState = function(){
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
-    pEl.textContent = "You have " + gameState.playerHealth + " health points left.";
+    pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
@@ -268,7 +267,7 @@ var endRound = function(){
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
-    pEl.textContent = "You have " + gameState.playerHealth + " hit points left.";
+    pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
@@ -292,7 +291,6 @@ var updateGameState = function(isCorrect){
         if(gameState.opponentHealth <= 0){
             gameState.opponentHasDied = true;
             gameState.playerScore += gameState.pointsForKillingOpponent;
-            //console.log(gameState.opponentHasDied, gameState.pointsForKillingOpponent);
         }
     }
     else{
@@ -331,6 +329,7 @@ mainEl.addEventListener("click",function(event){
         gameState.questionCounter = 1;
         gameState.playerScore = 0;
         gameState.roundCounter = 1;
+        gameState.playerHealth = health;
         buildStartScreen();
     }
     else if(event.target.className == "continue-btn"){
