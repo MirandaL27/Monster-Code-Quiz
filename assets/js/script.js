@@ -38,6 +38,9 @@ var gameState  = {
     answerWasCorrect : true,
     thisQuestionPlayerAttack: 0,
     thisQuestionOpponentAttack:0,
+    opponentHasDied : false,
+    playerHasDied : false,
+    numberOfRounds : 3,
 }
 
 var resetContainerElement = function(){
@@ -73,9 +76,20 @@ var displayGameState = function(){
     var h2El = document.createElement("h2");
     h2El.textContent = "Round 1 Update:"
     quizContainerEl.appendChild(h2El);
+
+    var pEl = document.createElement("p");
+    if(gameState.answerWasCorrect){
+        pEl.textContent = "You answered correctly! ";
+    }
+    else{
+        pEl.textContent = "You answered incorrectly!";
+    }
+    quizContainerEl.appendChild(pEl);
+
     var pEl = document.createElement("p");
     pEl.textContent = "You have " + gameState.playerHealth + " health points left.";
     quizContainerEl.appendChild(pEl);
+
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
         pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
@@ -83,12 +97,16 @@ var displayGameState = function(){
     else{
         pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
     }
-    
     quizContainerEl.appendChild(pEl);
+
+    var continueBtn = document.createElement("button");
+    continueBtn.textContent = "Continue";
+    continueBtn.className = "continue-btn";
+    quizContainerEl.appendChild(continueBtn);
 }
 
 var endRound = function(){
-    
+
 }
 
 var buildGameOverScreen = function(){
@@ -122,9 +140,10 @@ var buildQuizQuestion = function(questionIndex){
         var answerPEl = document.createElement("p");
         answerPEl.textContent = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
         answerPEl.className = "quiz-answer";
+        answerPEl.setAttribute("data-correctness", quizQuestions[questionIndex].answers[i].isCorrect);
         quizContainerEl.appendChild(answerPEl);
     }
-    gameState.questionCounter++;
+    //gameState.questionCounter++;
 
 }
 
@@ -165,6 +184,25 @@ var listQuizQuestions = function(){
     console.log(quizQuestions);
 }
 
+var updateGameState = function(isCorrect){
+    gameState.answerWasCorrect  = isCorrect;
+    if(isCorrect){
+        var attackBonus = quizQuestions[gameState.questionCounter-1].pointValueForCorrectAnswer;
+        gameState.thisQuestionPlayerAttack = gameState.playerAttack + attackBonus;
+        gameState.opponentHealth -= gameState.thisQuestionPlayerAttack;
+        if(gameState.opponentHealth <= 0){
+            gameState.opponentHasDied;
+        }
+    }
+    else{
+        var attackBonus = quizQuestions[gameState.questionCounter-1].pointValueForIncorrectAnswer;
+        gameState.thisQuestionOpponentAttack = gameState.opponentAttack + attackBonus;
+        gameState.playerHealth -= gameState.thisQuestionOpponentAttack;
+        if(gameState.playerHealth <= 0){
+            gameState.playerHasDied;
+        }
+    }
+}
 
 
 listQuizQuestions();
@@ -174,11 +212,25 @@ buildStartScreen();
 
 mainEl.addEventListener("click",function(event){
     if(event.target.className == "quiz-answer"){
-        buildQuizQuestion(gameState.questionCounter-1);
+        if(event.target.getAttribute("data-correctness") === "correct"){
+            //correct answer
+            updateGameState(true);
+        }
+        else{
+            //incorrect answer
+            updateGameState(false);
+        }
+        displayGameState();
     } 
     else if(event.target.className == "start-btn"){
         setRoundState();
         buildQuizQuestion(gameState.questionCounter-1);
     }
+    else if(event.target.className == "continue-btn"){
+        gameState.questionCounter++;
+        buildQuizQuestion(gameState.questionCounter-1);
+
+    }
 });
+
 
