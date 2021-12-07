@@ -80,7 +80,7 @@ var setRoundState = function(){
 var displayGameState = function(){
     resetContainerElement();
     var h2El = document.createElement("h2");
-    h2El.textContent = "Round 1 Update:"
+    h2El.textContent = "Round " + gameState.roundCounter + " Update:"
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
@@ -117,11 +117,43 @@ var buildGameOverScreen = function(isGameOver){
     //start over button
     //enter initials
     resetContainerElement();
+    console.log(isGameOver);
     if(isGameOver){
-        
+        var h2El = document.createElement("h2");
+        h2El.textContent = "Game Over";
+        quizContainerEl.appendChild(h2El);
+
+        var pEl = document.createElement("p");
+        pEl.textContent = "You were defeated!"
+        quizContainerEl.appendChild(pEl);
+
+        pEl = document.createElement("p");
+        pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        quizContainerEl.appendChild(pEl);
+
+        var buttonEl = document.createElement("button");
+        buttonEl.textContent = "Try Again";
+        buttonEl.className = "restart-btn";
+        quizContainerEl.appendChild(buttonEl);
     }
     else{
 
+        var h2El = document.createElement("h2");
+        h2El.textContent = "The game has ended";
+        quizContainerEl.appendChild(h2El);
+
+        var pEl = document.createElement("p");
+        pEl.textContent = "You defeated the enemies!"
+        quizContainerEl.appendChild(pEl);
+
+        pEl = document.createElement("p");
+        pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        quizContainerEl.appendChild(pEl);
+
+        var buttonEl = document.createElement("button");
+        buttonEl.textContent = "Play Again";
+        buttonEl.className = "restart-btn";
+        quizContainerEl.appendChild(buttonEl);
     }
 }
 
@@ -214,12 +246,18 @@ var listQuizQuestions = function(){
     q.answers = [new answer("background-color","correct"), new answer("color","incorrect"), new answer("background-image","incorrect"), new answer("background-size","incorrect")];
     quizQuestions.push(q);
 
+    var q = new question();
+    q.text = "Which flexbox property changes the html elements so that they line up vertically instead of horizontally?"
+    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("flex-direction","correct"), new answer("align-items","incorrect"), new answer("display: flex","incorrect"), new answer("justify-content","incorrect")];
+    quizQuestions.push(q);
+
     console.log(quizQuestions);
 }
 
-var endGame = function(){
-    console.log("the game has ended.");
-    buildGameOverScreen();
+var endGame = function(isGameOver){
+    buildGameOverScreen(isGameOver);
 }
 
 var endRound = function(){
@@ -289,12 +327,18 @@ mainEl.addEventListener("click",function(event){
         setRoundState();
         buildQuizQuestion(gameState.questionCounter-1);
     }
+    else if(event.target.className == "restart-btn"){
+        gameState.questionCounter = 1;
+        gameState.playerScore = 0;
+        gameState.roundCounter = 1;
+        buildStartScreen();
+    }
     else if(event.target.className == "continue-btn"){
         if(gameState.opponentHasDied){
             endRound(false);
             console.log(gameState.roundCounter, gameState.numberOfRounds);
-            if(gameState.roundCounter == gameState.numberOfRounds){
-                endGame();
+            if(gameState.roundCounter > gameState.numberOfRounds){
+                endGame(false);
             }
             setRoundState();
         }
