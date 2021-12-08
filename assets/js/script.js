@@ -6,6 +6,7 @@
 //game over screen
 //screen to enter initials for the high score
 var quizContainerEl = document.querySelector(".game-container");
+var highScoreLinkEl = document.querySelector(".high-score-link");
 var mainEl = document.querySelector("main");
 class answer {
     text;
@@ -25,6 +26,7 @@ class question{
 
 var quizQuestions = [];
 var health = 50;
+var highScores = [];
 
 //object that keeps track of game's state
 var gameState  = {
@@ -54,6 +56,7 @@ var resetContainerElement = function(){
 var buildStartScreen = function(){
     //start button
     //basic instructions
+    resetGameState();
     resetContainerElement();
     var h2El = document.createElement("h2");
     h2El.textContent = "Monster Code Quiz"
@@ -65,6 +68,13 @@ var buildStartScreen = function(){
     buttonEl.textContent = "Start Game";
     buttonEl.className = "start-btn";
     quizContainerEl.appendChild(buttonEl);
+}
+
+var resetGameState = function(){
+    gameState.questionCounter = 1;
+    gameState.playerScore = 0;
+    gameState.roundCounter = 1;
+    gameState.playerHealth = health;
 }
 
 var setRoundState = function(){
@@ -129,6 +139,26 @@ var buildGameOverScreen = function(isGameOver){
         pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         quizContainerEl.appendChild(pEl);
 
+        var labelEl = document.createElement("label");
+        labelEl.for = "initials-input";
+        labelEl.textContent = "Enter Initials";
+        var inputEl = document.createElement("input");
+        inputEl.type = "text";
+        inputEl.className = "initials-input";
+        inputEl.id = "initials-input";
+        quizContainerEl.appendChild(labelEl);
+        quizContainerEl.appendChild(inputEl);
+
+        var highScoreButtonEl = document.createElement("button");
+        highScoreButtonEl.textContent = "Submit Score";
+        highScoreButtonEl.className = "high-score-btn";
+        quizContainerEl.appendChild(highScoreButtonEl);
+
+        var viewHighScoreButtonEl = document.createElement("button");
+        viewHighScoreButtonEl.textContent = "View High Scores";
+        viewHighScoreButtonEl.className = "view-high-score-btn";
+        quizContainerEl.appendChild(viewHighScoreButtonEl);
+
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Try Again";
         buttonEl.className = "restart-btn";
@@ -148,6 +178,26 @@ var buildGameOverScreen = function(isGameOver){
         pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         quizContainerEl.appendChild(pEl);
 
+        var labelEl = document.createElement("label");
+        labelEl.for = "initials-input";
+        labelEl.textContent = "Enter Initials";
+        var inputEl = document.createElement("input");
+        inputEl.type = "text";
+        inputEl.className = "initials-input";
+        inputEl.id = "initials-input";
+        quizContainerEl.appendChild(labelEl);
+        quizContainerEl.appendChild(inputEl);
+
+        var highScoreButtonEl = document.createElement("button");
+        highScoreButtonEl.textContent = "Submit Score";
+        highScoreButtonEl.className = "high-score-btn";
+        quizContainerEl.appendChild(highScoreButtonEl);
+
+        var viewHighScoreButtonEl = document.createElement("button");
+        viewHighScoreButtonEl.textContent = "View High Scores";
+        viewHighScoreButtonEl.className = "view-high-score-btn";
+        quizContainerEl.appendChild(viewHighScoreButtonEl);
+
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Play Again";
         buttonEl.className = "restart-btn";
@@ -155,14 +205,79 @@ var buildGameOverScreen = function(isGameOver){
     }
 }
 
-var buildHighScoreScreen  = function(){
-    //high score list from localstorage
+var clearHighScores = function(){
+    resetContainerElement();
+    highScores.length = 0;
+    localStorage.removeItem("monster-high-scores");
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Go Back";
+    buttonEl.className = "back-btn";
+    quizContainerEl.appendChild(buttonEl);
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Clear High Scores";
+    buttonEl.className = "clear-btn";
+    quizContainerEl.appendChild(buttonEl);
+
 }
 
-var buildInitialsScreen = function(){
-    //Input for initials 
-    //save button - save initials and score to localStorage
+var buildHighScoreScreen  = function(){
+    //high score list from localstorage
+    resetContainerElement();
+    displayHighScores();
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Go Back";
+    buttonEl.className = "back-btn";
+    quizContainerEl.appendChild(buttonEl);
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Clear High Scores";
+    buttonEl.className = "clear-btn";
+    quizContainerEl.appendChild(buttonEl);
 }
+
+var loadHighScores = function(){
+    var hs = localStorage.getItem("monster-high-scores");
+    console.log(hs);
+    if(hs){
+        console.log("put the localstorage in the array");
+        highScores = JSON.parse(hs);
+    }
+}
+var saveHighScore = function(){
+    var input = document.querySelector(".initials-input").value;
+    var obj = {
+        score : gameState.playerScore,
+        initials : input,
+    }
+    console.log(obj);
+    highScores.push(obj);
+    localStorage.setItem("monster-high-scores",JSON.stringify(highScores));
+}
+
+var displayHighScores = function(){
+    //sort high scores
+
+    highScores = highScores.sort((x, y) => {
+        if(x.score > y.score){
+            return -1;
+        }
+        if(x.score < y.score){
+            return 1;
+        }
+        return 0;
+    } );
+
+    for(var i = 0; i < highScores.length; i++){
+        var pEl = document.createElement("p");
+        pEl.textContent = highScores[i].initials + "    " + highScores[i].score;
+        quizContainerEl.appendChild(pEl);
+    }
+}
+
+
 
 var buildQuizQuestion = function(questionIndex){
     //generates HTML elements for quiz questions
@@ -314,11 +429,19 @@ mainEl.addEventListener("click",function(event){
         setRoundState();
         buildQuizQuestion(gameState.questionCounter-1);
     }
+    else if (event.target.className == "high-score-btn"){
+        saveHighScore();
+    }
+    else if (event.target.className == "view-high-score-btn"){
+        buildHighScoreScreen();
+    }
+    else if (event.target.className == "clear-btn"){
+        clearHighScores();
+    }
+    else if(event.target.className == "back-btn"){
+        buildStartScreen();
+    }
     else if(event.target.className == "restart-btn"){
-        gameState.questionCounter = 1;
-        gameState.playerScore = 0;
-        gameState.roundCounter = 1;
-        gameState.playerHealth = health;
         buildStartScreen();
     }
     else if(event.target.className == "continue-btn"){
@@ -340,3 +463,8 @@ mainEl.addEventListener("click",function(event){
 });
 
 
+highScoreLinkEl.addEventListener("click", function(){
+    buildHighScoreScreen();
+});
+
+loadHighScores();
