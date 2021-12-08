@@ -111,7 +111,6 @@ var displayGameState = function(){
     gameState.questionCounter++;
 }
 
-
 var buildGameOverScreen = function(isGameOver){
     //start over button
     //enter initials
