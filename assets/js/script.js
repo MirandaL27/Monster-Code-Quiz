@@ -85,22 +85,12 @@ var buildQuizQuestion = function(questionIndex){
 }
 
 var getOpponentImage = function(){
-    //fetch request to API goes here!
-    var monsterUrl = "https://app.pixelencounter.com/api/basic/monsters/random/" + "png";
-    fetch(monsterUrl)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          console.log(data);
-          //set image src to api response here!
-        });
-      } else {
-        alert('Error: ' + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      alert('Unable to connect to Monster API');
-    });
+         // set image src to api response here!
+          var monsterImage = document.createElement("img");
+          var imageContainer = document.querySelector("#monster-image");
+          monsterImage.src = "https://robohash.org/jhgcihgtcikhg?set=set2";
+          console.log(imageContainer);
+          imageContainer.appendChild(monsterImage)
 }
 
 var listQuizQuestions = function(){
