@@ -1,11 +1,6 @@
-//start screen -start button
-//opponent - image of the monster
-//quiz questions
-//high score screen
-//health (player and opponent)
-//game over screen
-//screen to enter initials for the high score
 var quizContainerEl = document.querySelector(".game-container");
+var highScoreLinkEl = document.querySelector(".high-score-link");
+var settingsLinkEl = document.querySelector(".settings-link");
 var mainEl = document.querySelector("main");
 class answer {
     text;
@@ -25,6 +20,7 @@ class question{
 
 var quizQuestions = [];
 var health = 50;
+var highScores = [];
 
 //object that keeps track of game's state
 var gameState  = {
@@ -42,6 +38,7 @@ var gameState  = {
     numberOfRounds : 3,
     pointsForKillingOpponent: 0,
     playerScore: 0,
+    scrollSpeed: 50,
 }
 
 var resetContainerElement = function(){
@@ -51,15 +48,93 @@ var resetContainerElement = function(){
     mainEl.appendChild(quizContainerEl);
 }
 
+var printText = function(str,index, obj){
+    obj.textContent += str[index];
+}
+
+var scrollText = function(str, obj){
+    var string = str;
+    var index = 0;
+    var interval = setInterval(function(){
+        printText(str,index,obj);
+        index++;
+        if(index == string.length){
+            clearInterval(interval);
+        }
+    },gameState.scrollSpeed);
+
+}
+
+var scrollSpeedValue = function(){
+    if(gameState.scrollSpeed == 50){
+        return "Slow";
+    }
+    else if(gameState.scrollSpeed == 30){
+        return "Medium";
+    }
+    else{
+        return "Fast";
+    }
+}
+
+
+var buildSettingsScreen = function(){
+    resetContainerElement();
+    var scrollSpeed = scrollSpeedValue();
+    var h2El = document.createElement("h2");
+    h2El.textContent = "Settings:"
+    quizContainerEl.appendChild(h2El);
+    var selectEl = document.createElement("select");
+    selectEl.id = "scroll-speed";
+    console.log(selectEl.value);
+    var label = document.createElement("label");
+    label.for = "scroll-speed";
+    label.textContent = "Scroll Speed ";
+    quizContainerEl.appendChild(label);
+    quizContainerEl.appendChild(selectEl);
+
+    var optionEl = document.createElement("option");
+    optionEl.textContent = "Slow";
+    optionEl.value = "Slow";
+    if(scrollSpeed == "Slow"){
+        optionEl.setAttribute("selected","true");
+    }
+    selectEl.appendChild(optionEl);
+
+    var optionEl = document.createElement("option");
+    optionEl.textContent = "Medium";
+    optionEl.value = "Medium";
+    if(scrollSpeed == "Medium"){
+        optionEl.setAttribute("selected","true");
+    }
+    selectEl.appendChild(optionEl);
+
+    var optionEl = document.createElement("option");
+    optionEl.textContent = "Fast";
+    optionEl.value = "Fast";
+    if(scrollSpeed == "Fast"){
+        optionEl.setAttribute("selected","true");
+    }
+    selectEl.appendChild(optionEl);
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Go Back";
+    buttonEl.className = "back-btn";
+    quizContainerEl.appendChild(buttonEl);
+}
+
 var buildStartScreen = function(){
     //start button
     //basic instructions
+    resetGameState();
     resetContainerElement();
     var h2El = document.createElement("h2");
-    h2El.textContent = "Monster Code Quiz"
+    //h2El.textContent = "Monster Code Quiz"
+    scrollText("Monster Code Quiz",h2El);
     quizContainerEl.appendChild(h2El);
     var pEl = document.createElement("p");
-    pEl.textContent = "Answer the quiz questions to attack the monsters. Answering harder questions correctly will earn you extra attack. Be careful!  The monsters will attack you if you answer a question incorrectly! Complete all of the rounds to win the game!";
+    var text = "Answer the quiz questions to attack the monsters. Answering harder questions correctly will earn you extra attack. Be careful!  The monsters will attack you if you answer a question incorrectly! Complete all of the rounds to win the game!";
+    scrollText(text,pEl);
     quizContainerEl.appendChild(pEl);
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Start Game";
@@ -67,12 +142,18 @@ var buildStartScreen = function(){
     quizContainerEl.appendChild(buttonEl);
 }
 
+var resetGameState = function(){
+    gameState.questionCounter = 1;
+    gameState.playerScore = 0;
+    gameState.roundCounter = 1;
+    gameState.playerHealth = health;
+}
+
 var setRoundState = function(){
     gameState.opponentHealth = Math.floor(Math.random()*11 + 30);//opponent health is between 30 and 40 points
     gameState.opponentAttack = Math.floor(Math.random()*11 + 10);//opponent attack is between 10 and 20 points
     gameState.pointsForKillingOpponent = Math.floor((gameState.opponentHealth + gameState.opponentAttack)/2);
     gameState.opponentHasDied = false;
-    //gameState.playerHealth = health;
     gameState.playerHasDied = false;
 }
 
@@ -115,7 +196,6 @@ var buildGameOverScreen = function(isGameOver){
     //start over button
     //enter initials
     resetContainerElement();
-    console.log(isGameOver);
     if(isGameOver){
         var h2El = document.createElement("h2");
         h2El.textContent = "Game Over";
@@ -128,6 +208,26 @@ var buildGameOverScreen = function(isGameOver){
         pEl = document.createElement("p");
         pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         quizContainerEl.appendChild(pEl);
+
+        var labelEl = document.createElement("label");
+        labelEl.for = "initials-input";
+        labelEl.textContent = "Enter Initials";
+        var inputEl = document.createElement("input");
+        inputEl.type = "text";
+        inputEl.className = "initials-input";
+        inputEl.id = "initials-input";
+        quizContainerEl.appendChild(labelEl);
+        quizContainerEl.appendChild(inputEl);
+
+        var highScoreButtonEl = document.createElement("button");
+        highScoreButtonEl.textContent = "Submit Score";
+        highScoreButtonEl.className = "high-score-btn";
+        quizContainerEl.appendChild(highScoreButtonEl);
+
+        var viewHighScoreButtonEl = document.createElement("button");
+        viewHighScoreButtonEl.textContent = "View High Scores";
+        viewHighScoreButtonEl.className = "view-high-score-btn";
+        quizContainerEl.appendChild(viewHighScoreButtonEl);
 
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Try Again";
@@ -148,6 +248,26 @@ var buildGameOverScreen = function(isGameOver){
         pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         quizContainerEl.appendChild(pEl);
 
+        var labelEl = document.createElement("label");
+        labelEl.for = "initials-input";
+        labelEl.textContent = "Enter Initials";
+        var inputEl = document.createElement("input");
+        inputEl.type = "text";
+        inputEl.className = "initials-input";
+        inputEl.id = "initials-input";
+        quizContainerEl.appendChild(labelEl);
+        quizContainerEl.appendChild(inputEl);
+
+        var highScoreButtonEl = document.createElement("button");
+        highScoreButtonEl.textContent = "Submit Score";
+        highScoreButtonEl.className = "high-score-btn";
+        quizContainerEl.appendChild(highScoreButtonEl);
+
+        var viewHighScoreButtonEl = document.createElement("button");
+        viewHighScoreButtonEl.textContent = "View High Scores";
+        viewHighScoreButtonEl.className = "view-high-score-btn";
+        quizContainerEl.appendChild(viewHighScoreButtonEl);
+
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Play Again";
         buttonEl.className = "restart-btn";
@@ -155,46 +275,139 @@ var buildGameOverScreen = function(isGameOver){
     }
 }
 
-var buildHighScoreScreen  = function(){
-    //high score list from localstorage
+var clearHighScores = function(){
+    resetContainerElement();
+    highScores.length = 0;
+    localStorage.removeItem("monster-high-scores");
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Go Back";
+    buttonEl.className = "back-btn";
+    quizContainerEl.appendChild(buttonEl);
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Clear High Scores";
+    buttonEl.className = "clear-btn";
+    quizContainerEl.appendChild(buttonEl);
+
 }
 
-var buildInitialsScreen = function(){
-    //Input for initials 
-    //save button - save initials and score to localStorage
+var buildHighScoreScreen  = function(){
+    //high score list from localstorage
+    resetContainerElement();
+    displayHighScores();
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Go Back";
+    buttonEl.className = "back-btn";
+    quizContainerEl.appendChild(buttonEl);
+
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = "Clear High Scores";
+    buttonEl.className = "clear-btn";
+    quizContainerEl.appendChild(buttonEl);
 }
+
+var loadHighScores = function(){
+    var hs = localStorage.getItem("monster-high-scores");
+    if(hs){
+        highScores = JSON.parse(hs);
+    }
+}
+var saveHighScore = function(){
+    var input = document.querySelector(".initials-input").value;
+    var obj = {
+        score : gameState.playerScore,
+        initials : input,
+    }
+    highScores.push(obj);
+    localStorage.setItem("monster-high-scores",JSON.stringify(highScores));
+}
+
+var displayHighScores = function(){
+    //sort high scores
+    highScores = highScores.sort((x, y) => {
+        if(x.score > y.score){
+            return -1;
+        }
+        if(x.score < y.score){
+            return 1;
+        }
+        return 0;
+    } );
+
+    for(var i = 0; i < highScores.length; i++){
+        var pEl = document.createElement("p");
+        pEl.textContent = highScores[i].initials + "    " + highScores[i].score;
+        quizContainerEl.appendChild(pEl);
+    }
+}
+
+
 
 var buildQuizQuestion = function(questionIndex){
     //generates HTML elements for quiz questions
-    console.log("build question", questionIndex);
     resetContainerElement();
     var h2El = document.createElement("h2");
-    h2El.textContent = "Question " + gameState.questionCounter + ": ";
+    var text = "Question " + gameState.questionCounter + ": ";
+    //h2El.textContent = 
+    scrollText(text,h2El);
     quizContainerEl.appendChild(h2El);
 
     var questionPEl = document.createElement("p");
-    questionPEl.textContent = quizQuestions[questionIndex].text;
-    questionPEl.className = "quiz-question"
+    //questionPEl.textContent = quizQuestions[questionIndex].text;
+    scrollText(quizQuestions[questionIndex].text,questionPEl);
+    questionPEl.className = "quiz-question";
     quizContainerEl.appendChild(questionPEl);
 
     for(var i =0; i<quizQuestions[questionIndex].answers.length; i++){
         var answerPEl = document.createElement("p");
-        answerPEl.textContent = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
+        //answerPEl.textContent = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
+        var text = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
+        scrollText(text,answerPEl);
         answerPEl.className = "quiz-answer";
         answerPEl.setAttribute("data-correctness", quizQuestions[questionIndex].answers[i].isCorrect);
         quizContainerEl.appendChild(answerPEl);
     }
-    //gameState.questionCounter++;
+}
+var resetOpponentImage = function(){
+    var imageContainer = document.querySelector("#monster-image");
+    imageContainer.remove();
+    var imageContainer = document.createElement("div");
+    imageContainer.id = "monster-image";
+    mainEl.appendChild(imageContainer);
+}
 
+var hideMonsterImage = function(){
+    var imageContainer = document.querySelector("#monster-image");
+    imageContainer.style.display = "none";
+}
+
+var showMonsterImage = function(){
+    var imageContainer = document.querySelector("#monster-image");
+    imageContainer.style.display = "block";
+}
+
+var generateUrlString = function(){
+    var randomString = "";
+    var length = Math.floor(Math.random()*21) + 10; // random string is between 10 and 20 characters long
+    var charset = "abcdefghijklmnopqrstuvwxyz";
+    for(var i=0; i< length; i++){
+        var index = Math.floor(Math.random()*charset.length);
+        randomString += charset[index];
+    }
+
+    var url = "https://robohash.org/" + randomString + "?set=set2";
+    return url;
 }
 
 var getOpponentImage = function(){
-         // set image src to api response here!
-        var monsterImage = document.createElement("img");
-        var imageContainer = document.querySelector("#monster-image");
-        monsterImage.src = "https://robohash.org/jhgcihgtcikhg?set=set2";
-        console.log(imageContainer);
-        imageContainer.appendChild(monsterImage)
+    // set image src to api response here!
+    resetOpponentImage();
+    var monsterImage = document.createElement("img");
+    var imageContainer = document.querySelector("#monster-image");
+    monsterImage.src = generateUrlString();
+    imageContainer.appendChild(monsterImage)
 }
 
 var listQuizQuestions = function(){
@@ -240,8 +453,6 @@ var listQuizQuestions = function(){
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("flex-direction","correct"), new answer("align-items","incorrect"), new answer("display: flex","incorrect"), new answer("justify-content","incorrect")];
     quizQuestions.push(q);
-
-    console.log(quizQuestions);
 }
 
 var endGame = function(isGameOver){
@@ -265,6 +476,7 @@ var endRound = function(){
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Start Next Round";
+    buttonEl.id = "start-next-round";
     buttonEl.className = "continue-btn";
     quizContainerEl.appendChild(buttonEl);
     gameState.roundCounter++;
@@ -312,19 +524,29 @@ mainEl.addEventListener("click",function(event){
     } 
     else if(event.target.className == "start-btn"){
         setRoundState();
-        buildQuizQuestion(gameState.questionCounter-1);
+        getOpponentImage();
+        var index = Math.floor(Math.random()*quizQuestions.length);
+        buildQuizQuestion(index);
+    }
+    else if (event.target.className == "high-score-btn"){
+        saveHighScore();
+    }
+    else if (event.target.className == "view-high-score-btn"){
+        buildHighScoreScreen();
+    }
+    else if (event.target.className == "clear-btn"){
+        clearHighScores();
+    }
+    else if(event.target.className == "back-btn"){
+        buildStartScreen();
     }
     else if(event.target.className == "restart-btn"){
-        gameState.questionCounter = 1;
-        gameState.playerScore = 0;
-        gameState.roundCounter = 1;
-        gameState.playerHealth = health;
         buildStartScreen();
     }
     else if(event.target.className == "continue-btn"){
         if(gameState.opponentHasDied){
             endRound(false);
-            console.log(gameState.roundCounter, gameState.numberOfRounds);
+            hideMonsterImage();
             if(gameState.roundCounter > gameState.numberOfRounds){
                 endGame(false);
             }
@@ -334,9 +556,40 @@ mainEl.addEventListener("click",function(event){
             endGame(true);
         }
         else{
-            buildQuizQuestion(gameState.questionCounter-1);
+            if(event.target.matches("#start-next-round")){
+                getOpponentImage();
+                showMonsterImage();
+            }
+            var index = Math.floor(Math.random()*quizQuestions.length);
+            buildQuizQuestion(index); 
         }
+    }
+});
+var changeScrollSpeed = function(value){
+    if(value == "Slow"){
+        gameState.scrollSpeed = 50;
+    }
+    else if(value == "Medium"){
+        gameState.scrollSpeed = 30;
+    }
+    else{
+        gameState.scrollSpeed = 10;
+    }
+}
+
+mainEl.addEventListener("change",function(event){
+    if(event.target.id == "scroll-speed"){
+        changeScrollSpeed(event.target.value);
     }
 });
 
 
+highScoreLinkEl.addEventListener("click", function(){
+    buildHighScoreScreen();
+});
+
+settingsLinkEl.addEventListener("click", function(){
+    buildSettingsScreen();
+});
+
+loadHighScores();
