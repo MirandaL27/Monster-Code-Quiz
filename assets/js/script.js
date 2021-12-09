@@ -190,11 +190,11 @@ var buildQuizQuestion = function(questionIndex){
 
 var getOpponentImage = function(){
          // set image src to api response here!
-          var monsterImage = document.createElement("img");
-          var imageContainer = document.querySelector("#monster-image");
-          monsterImage.src = "https://robohash.org/jhgcihgtcikhg?set=set2";
-          console.log(imageContainer);
-          imageContainer.appendChild(monsterImage)
+        var monsterImage = document.createElement("img");
+        var imageContainer = document.querySelector("#monster-image");
+        monsterImage.src = "https://robohash.org/jhgcihgtcikhg?set=set2";
+        console.log(imageContainer);
+        imageContainer.appendChild(monsterImage)
 }
 
 var listQuizQuestions = function(){
