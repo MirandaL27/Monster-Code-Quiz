@@ -85,9 +85,12 @@ var displayGameState = function(){
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
         pEl.textContent = "You answered correctly! ";
+        //display confetti
+       document.getElementById("confetti").style.display="block";
     }
     else{
         pEl.textContent = "You answered incorrectly!";
+       
     }
     quizContainerEl.appendChild(pEl);
 
@@ -125,6 +128,7 @@ var buildGameOverScreen = function(isGameOver){
         var pEl = document.createElement("p");
         pEl.textContent = "You were defeated!"
         quizContainerEl.appendChild(pEl);
+        
 
         pEl = document.createElement("p");
         pEl.textContent = "Your current score is " + gameState.playerScore + " points."
