@@ -130,7 +130,8 @@ var buildStartScreen = function(){
     resetContainerElement();
     var h2El = document.createElement("h2");
     //h2El.textContent = "Monster Code Quiz"
-    scrollText("Monster Code Quiz",h2El);
+    scrollText("Directions:",h2El);
+    h2El.className = "mb-5"
     quizContainerEl.appendChild(h2El);
     var pEl = document.createElement("p");
     var text = "Answer the quiz questions to attack the monsters. Answering harder questions correctly will earn you extra attack. Be careful!  The monsters will attack you if you answer a question incorrectly! Complete all of the rounds to win the game!";
@@ -138,8 +139,12 @@ var buildStartScreen = function(){
     quizContainerEl.appendChild(pEl);
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Start Game";
-    buttonEl.className = "start-btn";
-    quizContainerEl.appendChild(buttonEl);
+    buttonEl.className = "start-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id = "start-btn";
+    var divEl = document.createElement("div");
+    divEl.className = "has-text-centered";
+    divEl.appendChild(buttonEl);
+    quizContainerEl.appendChild(divEl);
 }
 
 var resetGameState = function(){
@@ -529,7 +534,7 @@ mainEl.addEventListener("click",function(event){
         }
         displayGameState();
     } 
-    else if(event.target.className == "start-btn"){
+    else if(event.target.id == "start-btn"){
         setRoundState();
         getOpponentImage();
         var index = Math.floor(Math.random()*quizQuestions.length);
