@@ -1,7 +1,13 @@
 body {
-    font-family: 'Press Start 2P', cursive;
-  background-color: rgb(9, 218, 145);
-  text-align: center;
-  text-transform: uppercase;
+  font-family: "Press Start 2P", cursive;
   cursor: pointer;
+  height: 100vh;
+}
+
+main {
+  height: 100vh;
+}
+
+#start-btn {
+  font-family: "Press Start 2P", cursive;
 }
