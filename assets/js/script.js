@@ -171,6 +171,8 @@ var displayGameState = function(){
     }
     else{
         pEl.textContent = "You answered incorrectly!";
+        //display thumbs down
+        document.getElementById("thumbs-down").style.display="block";
        
     }
     quizContainerEl.appendChild(pEl);
@@ -185,6 +187,7 @@ var displayGameState = function(){
     }
     else{
         pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
+        document.getElementById("monster-man").style.display="block";
     }
     quizContainerEl.appendChild(pEl);
 
