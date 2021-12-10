@@ -1,7 +1,20 @@
 body {
-    font-family: 'Press Start 2P', cursive;
-  background-color: rgb(9, 218, 145);
-  text-align: center;
-  text-transform: uppercase;
+  font-family: "Press Start 2P", cursive;
   cursor: pointer;
+  height: 100vh;
+}
+
+main {
+  height: 100vh;
+}
+/*styles for the buttoms in the game*/
+#start-btn,
+#continue-btn,
+#start-next-round,
+#view-high-score-btn,
+#restart-btn,
+#high-score-btn,
+#back-btn,
+#clear-btn {
+  font-family: "Press Start 2P", cursive;
 }

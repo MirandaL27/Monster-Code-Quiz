@@ -119,7 +119,8 @@ var buildSettingsScreen = function(){
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Go Back";
-    buttonEl.className = "back-btn";
+    buttonEl.className = "back-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id = "back-btn";
     quizContainerEl.appendChild(buttonEl);
 }
 
@@ -130,7 +131,8 @@ var buildStartScreen = function(){
     resetContainerElement();
     var h2El = document.createElement("h2");
     //h2El.textContent = "Monster Code Quiz"
-    scrollText("Monster Code Quiz",h2El);
+    scrollText("Directions:",h2El);
+    h2El.className = "mb-5"
     quizContainerEl.appendChild(h2El);
     var pEl = document.createElement("p");
     var text = "Answer the quiz questions to attack the monsters. Answering harder questions correctly will earn you extra attack. Be careful!  The monsters will attack you if you answer a question incorrectly! Complete all of the rounds to win the game!";
@@ -138,8 +140,12 @@ var buildStartScreen = function(){
     quizContainerEl.appendChild(pEl);
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Start Game";
-    buttonEl.className = "start-btn";
-    quizContainerEl.appendChild(buttonEl);
+    buttonEl.className = "start-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id = "start-btn";
+    var divEl = document.createElement("div");
+    divEl.className = "has-text-centered";
+    divEl.appendChild(buttonEl);
+    quizContainerEl.appendChild(divEl);
 }
 
 var resetGameState = function(){
@@ -193,8 +199,12 @@ var displayGameState = function(){
 
     var continueBtn = document.createElement("button");
     continueBtn.textContent = "Continue";
-    continueBtn.className = "continue-btn";
-    quizContainerEl.appendChild(continueBtn);
+    continueBtn.className = "continue-btn button is-rounded has-background-success p-2 mt-5";
+    continueBtn.id ="continue-btn";
+    var divEl = document.createElement("div");
+    divEl.className = "has-text-centered";
+    divEl.appendChild(continueBtn);
+    quizContainerEl.appendChild(divEl);
     gameState.questionCounter++;
 }
 
@@ -228,18 +238,26 @@ var buildGameOverScreen = function(isGameOver){
 
         var highScoreButtonEl = document.createElement("button");
         highScoreButtonEl.textContent = "Submit Score";
-        highScoreButtonEl.className = "high-score-btn";
-        quizContainerEl.appendChild(highScoreButtonEl);
+        highScoreButtonEl.className = "high-score-btn button is-rounded has-background-success p-2 mt-5";
+        highScoreButtonEl.id = "high-score-btn";
+        // quizContainerEl.appendChild(highScoreButtonEl);
 
         var viewHighScoreButtonEl = document.createElement("button");
         viewHighScoreButtonEl.textContent = "View High Scores";
-        viewHighScoreButtonEl.className = "view-high-score-btn";
-        quizContainerEl.appendChild(viewHighScoreButtonEl);
+        viewHighScoreButtonEl.className = "view-high-score-btn button is-rounded has-background-success p-2 mt-5";
+        viewHighScoreButtonEl.id = "view-high-score-btn";
+        // quizContainerEl.appendChild(viewHighScoreButtonEl);
 
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Try Again";
-        buttonEl.className = "restart-btn";
-        quizContainerEl.appendChild(buttonEl);
+        buttonEl.className = "restart-btn button is-rounded has-background-success p-2 mt-5";
+        buttonEl.id = "restart-btn";
+        var divEl = document.createElement("div");
+        divEl.className = "has-text-centered";
+        divEl.appendChild(highScoreButtonEl);
+        divEl.appendChild(viewHighScoreButtonEl);
+        divEl.appendChild(buttonEl);
+        quizContainerEl.appendChild(divEl);
     }
     else{
 
@@ -267,18 +285,26 @@ var buildGameOverScreen = function(isGameOver){
 
         var highScoreButtonEl = document.createElement("button");
         highScoreButtonEl.textContent = "Submit Score";
-        highScoreButtonEl.className = "high-score-btn";
-        quizContainerEl.appendChild(highScoreButtonEl);
+        highScoreButtonEl.className = "high-score-btn button is-rounded has-background-success p-2 mt-5";
+        highScoreButtonEl.id ="high-score-btn";
+        // quizContainerEl.appendChild(highScoreButtonEl);
 
         var viewHighScoreButtonEl = document.createElement("button");
         viewHighScoreButtonEl.textContent = "View High Scores";
-        viewHighScoreButtonEl.className = "view-high-score-btn";
-        quizContainerEl.appendChild(viewHighScoreButtonEl);
+        viewHighScoreButtonEl.className = "view-high-score-btn button is-rounded has-background-success p-2 mt-5";
+        viewHighScoreButtonEl.id ="view-high-score-btn";
+        // quizContainerEl.appendChild(viewHighScoreButtonEl);
 
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Play Again";
-        buttonEl.className = "restart-btn";
-        quizContainerEl.appendChild(buttonEl);
+        buttonEl.className = "restart-btn button is-rounded has-background-success p-2 mt-5";
+        buttonEl.id ="restart-btn";
+        var divEl = document.createElement("div");
+        divEl.className = "has-text-centered";
+        divEl.appendChild(highScoreButtonEl);
+        divEl.appendChild(viewHighScoreButtonEl);
+        divEl.appendChild(buttonEl);
+        quizContainerEl.appendChild(divEl);
     }
 }
 
@@ -289,12 +315,14 @@ var clearHighScores = function(){
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Go Back";
-    buttonEl.className = "back-btn";
+    buttonEl.className = "back-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id = "back-btn";
     quizContainerEl.appendChild(buttonEl);
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Clear High Scores";
-    buttonEl.className = "clear-btn";
+    buttonEl.className = "clear-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id ="clear-btn";
     quizContainerEl.appendChild(buttonEl);
 
 }
@@ -306,12 +334,14 @@ var buildHighScoreScreen  = function(){
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Go Back";
-    buttonEl.className = "back-btn";
+    buttonEl.className = "back-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id ="back-btn";
     quizContainerEl.appendChild(buttonEl);
 
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Clear High Scores";
-    buttonEl.className = "clear-btn";
+    buttonEl.className = "clear-btn button is-rounded has-background-success p-2 mt-5";
+    buttonEl.id = "clear-btn";
     quizContainerEl.appendChild(buttonEl);
 }
 
@@ -484,7 +514,7 @@ var endRound = function(){
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Start Next Round";
     buttonEl.id = "start-next-round";
-    buttonEl.className = "continue-btn";
+    buttonEl.className = "continue-btn button is-rounded has-background-success p-2 mt-5";
     quizContainerEl.appendChild(buttonEl);
     gameState.roundCounter++;
     
@@ -529,28 +559,28 @@ mainEl.addEventListener("click",function(event){
         }
         displayGameState();
     } 
-    else if(event.target.className == "start-btn"){
+    else if(event.target.id == "start-btn"){
         setRoundState();
         getOpponentImage();
         var index = Math.floor(Math.random()*quizQuestions.length);
         buildQuizQuestion(index);
     }
-    else if (event.target.className == "high-score-btn"){
+    else if (event.target.id == "high-score-btn"){
         saveHighScore();
     }
-    else if (event.target.className == "view-high-score-btn"){
+    else if (event.target.id == "view-high-score-btn"){
         buildHighScoreScreen();
     }
-    else if (event.target.className == "clear-btn"){
+    else if (event.target.id == "clear-btn"){
         clearHighScores();
     }
-    else if(event.target.className == "back-btn"){
+    else if(event.target.id == "back-btn"){
         buildStartScreen();
     }
-    else if(event.target.className == "restart-btn"){
+    else if(event.target.id == "restart-btn"){
         buildStartScreen();
     }
-    else if(event.target.className == "continue-btn"){
+    else if(event.target.id == "continue-btn" || event.target.id == "start-next-round"){
         if(gameState.opponentHasDied){
             endRound(false);
             hideMonsterImage();
