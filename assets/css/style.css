@@ -7,7 +7,14 @@ body {
 main {
   height: 100vh;
 }
-
-#start-btn {
+/*styles for the buttoms in the game*/
+#start-btn,
+#continue-btn,
+#start-next-round,
+#view-high-score-btn,
+#restart-btn,
+#high-score-btn,
+#back-btn,
+#clear-btn {
   font-family: "Press Start 2P", cursive;
 }
