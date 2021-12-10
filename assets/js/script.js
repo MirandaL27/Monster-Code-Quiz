@@ -46,6 +46,13 @@ var resetContainerElement = function(){
     quizContainerEl = document.createElement("section");
     quizContainerEl.className = "game-container";
     mainEl.appendChild(quizContainerEl);
+    document.getElementById("confetti").style.display="none";
+    document.getElementById("thumbs-down").style.display="none";
+    document.getElementById("monster-man").style.display="none";
+    document.getElementById("smiley").style.display="none";
+    document.getElementById("headstone").style.display="none";
+    document.getElementById("medal").style.display="none";
+    
 }
 
 var printText = function(str,index, obj){
@@ -190,6 +197,7 @@ var displayGameState = function(){
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
         pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
+        document.getElementById("smiley").style.display="block";
     }
     else{
         pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
@@ -220,6 +228,7 @@ var buildGameOverScreen = function(isGameOver){
         var pEl = document.createElement("p");
         pEl.textContent = "You were defeated!"
         quizContainerEl.appendChild(pEl);
+        document.getElementById("headstone").style.display="block";
         
 
         pEl = document.createElement("p");
@@ -362,6 +371,7 @@ var saveHighScore = function(){
 }
 
 var displayHighScores = function(){
+    document.getElementById("medal").style.display="block";
     //sort high scores
     highScores = highScores.sort((x, y) => {
         if(x.score > y.score){
