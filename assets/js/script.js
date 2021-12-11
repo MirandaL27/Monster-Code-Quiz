@@ -39,6 +39,7 @@ var gameState  = {
     pointsForKillingOpponent: 0,
     playerScore: 0,
     scrollSpeed: 50,
+    previousQuestionNumber: 0,
 }
 
 var resetContainerElement = function(){
@@ -89,14 +90,16 @@ var buildSettingsScreen = function(){
     resetContainerElement();
     var scrollSpeed = scrollSpeedValue();
     var h2El = document.createElement("h2");
-    h2El.textContent = "Settings:"
+    //h2El.textContent = "Settings:"
+    scrollText("Settings:",h2El);
     quizContainerEl.appendChild(h2El);
     var selectEl = document.createElement("select");
     selectEl.id = "scroll-speed";
     console.log(selectEl.value);
     var label = document.createElement("label");
     label.for = "scroll-speed";
-    label.textContent = "Scroll Speed ";
+    //label.textContent = "Scroll Speed ";
+    scrollText("Scroll Speed ",label);
     quizContainerEl.appendChild(label);
     quizContainerEl.appendChild(selectEl);
 
@@ -136,6 +139,7 @@ var buildStartScreen = function(){
     //basic instructions
     resetGameState();
     resetContainerElement();
+    hideMonsterImage();
     var h2El = document.createElement("h2");
     //h2El.textContent = "Monster Code Quiz"
     scrollText("Directions:",h2El);
@@ -173,17 +177,21 @@ var setRoundState = function(){
 var displayGameState = function(){
     resetContainerElement();
     var h2El = document.createElement("h2");
-    h2El.textContent = "Round " + gameState.roundCounter + " Update:"
+    var text = "Round " + gameState.roundCounter + " Update:"
+    scrollText(text,h2El);
+    //h2El.textContent = "Round " + gameState.roundCounter + " Update:"
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
-        pEl.textContent = "You answered correctly! ";
+        scrollText("You answered correctly! ",pEl);
+        //pEl.textContent = "You answered correctly! ";
         //display confetti
        document.getElementById("confetti").style.display="block";
     }
     else{
-        pEl.textContent = "You answered incorrectly!";
+        scrollText("You answered incorrectly! ",pEl);
+        //pEl.textContent = "You answered incorrectly!";
         //display thumbs down
         document.getElementById("thumbs-down").style.display="block";
        
@@ -191,16 +199,22 @@ var displayGameState = function(){
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
-    pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
+    //pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
+    var text = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
+    scrollText(text,pEl);
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
-        pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
+        //pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
+        var text = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
+        scrollText(text,pEl);
         document.getElementById("smiley").style.display="block";
     }
     else{
-        pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
+        //pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
+        var text = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
+        scrollText(text,pEl);
         document.getElementById("monster-man").style.display="block";
     }
     quizContainerEl.appendChild(pEl);
@@ -222,22 +236,27 @@ var buildGameOverScreen = function(isGameOver){
     resetContainerElement();
     if(isGameOver){
         var h2El = document.createElement("h2");
-        h2El.textContent = "Game Over";
+        scrollText("Game Over",h2El);
+        //h2El.textContent = "Game Over";
         quizContainerEl.appendChild(h2El);
 
         var pEl = document.createElement("p");
-        pEl.textContent = "You were defeated!"
+        //pEl.textContent = "You were defeated!"
+        scrollText("You were defeated!",pEl);
         quizContainerEl.appendChild(pEl);
         document.getElementById("headstone").style.display="block";
         
 
         pEl = document.createElement("p");
-        pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        //pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        var text = "Your current score is " + gameState.playerScore + " points.";
+        scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
 
         var labelEl = document.createElement("label");
         labelEl.for = "initials-input";
-        labelEl.textContent = "Enter Initials";
+        //labelEl.textContent = "Enter Initials";
+        scrollText("Enter Initials",labelEl);
         var inputEl = document.createElement("input");
         inputEl.type = "text";
         inputEl.className = "initials-input";
@@ -271,20 +290,25 @@ var buildGameOverScreen = function(isGameOver){
     else{
 
         var h2El = document.createElement("h2");
-        h2El.textContent = "The game has ended";
+        //h2El.textContent = "The game has ended";
+        scrollText("The game has ended",h2El);
         quizContainerEl.appendChild(h2El);
 
         var pEl = document.createElement("p");
-        pEl.textContent = "You defeated the enemies!"
+        //pEl.textContent = "You defeated the enemies!"
+        scrollText("You defeated the enemies!",pEl);
         quizContainerEl.appendChild(pEl);
 
         pEl = document.createElement("p");
-        pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        //pEl.textContent = "Your current score is " + gameState.playerScore + " points."
+        var text = "Your current score is " + gameState.playerScore + " points.";
+        scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
 
         var labelEl = document.createElement("label");
         labelEl.for = "initials-input";
-        labelEl.textContent = "Enter Initials";
+        //labelEl.textContent = "Enter Initials";
+        scrollText("Enter Initials",labelEl);
         var inputEl = document.createElement("input");
         inputEl.type = "text";
         inputEl.className = "initials-input";
@@ -339,6 +363,7 @@ var clearHighScores = function(){
 var buildHighScoreScreen  = function(){
     //high score list from localstorage
     resetContainerElement();
+    hideMonsterImage();
     displayHighScores();
 
     var buttonEl = document.createElement("button");
@@ -368,6 +393,8 @@ var saveHighScore = function(){
     }
     highScores.push(obj);
     localStorage.setItem("monster-high-scores",JSON.stringify(highScores));
+    document.getElementById("high-score-btn").style.display="none";
+    
 }
 
 var displayHighScores = function(){
@@ -385,7 +412,9 @@ var displayHighScores = function(){
 
     for(var i = 0; i < highScores.length; i++){
         var pEl = document.createElement("p");
-        pEl.textContent = highScores[i].initials + "    " + highScores[i].score;
+        //pEl.textContent = highScores[i].initials + "    " + highScores[i].score;
+        var text = highScores[i].initials + "    " + highScores[i].score;
+        scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
     }
 }
@@ -459,46 +488,82 @@ var getOpponentImage = function(){
 
 var listQuizQuestions = function(){
     //add questions to the quiz here!
+        //Q-1
     var q = new question();
     q.text = "What does HTML stand for?"
-    q.pointValueForCorrectAnswer = 10;
-    q.pointValueForIncorrectAnswer = 20;
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer = 15;
     q.answers = [new answer("Hypertext Markup Language","correct"), new answer("Hypertext Mark Language","incorrect"), new answer("Hyphentext Markdown Language","incorrect"), new answer("Hypertext Markdown Language","incorrect")];
     quizQuestions.push(q);
-
+        //Q-2
     var q = new question();
     q.text = "What does || stand for?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("And","incorrect"), new answer("Not","incorrect"), new answer("Or","correct"), new answer("Is Less Than","incorrect")];
     quizQuestions.push(q);
-
+        //Q-3
     var q = new question();
     q.text = "Which of the following answers is shorthand for i = i + 1?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("i--","incorrect"), new answer("i++","correct"), new answer("i+=1","correct"), new answer("i-=1","incorrect")];
     quizQuestions.push(q);
-
+        //Q-4
     var q = new question();
     q.text = "Which of the following is a primitive type?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("String","correct"), new answer("Array","incorrect"), new answer("Function","incorrect"), new answer("Object","incorrect")];
     quizQuestions.push(q);
-
+        //Q-5
     var q = new question();
     q.text = "Which property can be used to change the background color of an HTML element?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("background-color","correct"), new answer("color","incorrect"), new answer("background-image","incorrect"), new answer("background-size","incorrect")];
     quizQuestions.push(q);
-
+        //Q=6
     var q = new question();
     q.text = "Which flexbox property changes the html elements so that they line up vertically instead of horizontally?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("flex-direction","correct"), new answer("align-items","incorrect"), new answer("display: flex","incorrect"), new answer("justify-content","incorrect")];
+    quizQuestions.push(q);
+        //Q-7
+    var q = new question();
+    q.text = "The syntax of a blur method in a button object is ______?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Blur(depth)","incorrect"), new answer("Blur(contrast)","incorrect"), new answer("Blur(value)","incorrect"), new answer("Blur()","correct")];
+    quizQuestions.push(q);
+        //Q-8
+    var q = new question();
+    q.text = "Which best explains getSelection()?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Returns the VALUE of a selected OPTION.","incorrect"), new answer("Returns the value of cursor-selected text","correct"), new answer("Returns document.URL of the window in focus.","incorrect"), new answer("Returns the VALUE of a checked radio input.","incorrect")];
+    quizQuestions.push(q);
+        //Q-9
+    var q = new question();
+    q.text = "How to create a Date object in JavaScript?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("dateObjectName Date([parameters])","incorrect"), new answer("dateObjectName.new Date([parameters])","incorrect"), new answer("dateObjectName = new Date([parameters])","correct"), new answer("dateObjectName := new Date([parameters])","incorrect")];
+    quizQuestions.push(q);
+        //Q-10
+    var q = new question();
+    q.text = "What are variables used for in JavaScript Programs?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Storing numbers, dates, or other values","correct"), new answer("Varying randomly","incorrect"), new answer("Causing high-school algebra flashbacks","incorrect"), new answer("None of the above","incorrect")];
+    quizQuestions.push(q);
+        //Q-11
+    var q = new question();
+    q.text = "Which of the following are capabilities of functions in JavaScript?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Return a value","incorrect"), new answer("Accept parameters and Return a value","incorrect"), new answer("Accept parameters","correct"), new answer("None of the above","incorrect")];
     quizQuestions.push(q);
 }
 
@@ -510,15 +575,21 @@ var endRound = function(){
     resetContainerElement();
 
     var h2El = document.createElement("h2");
-    h2El.textContent = "Round " + gameState.roundCounter + " has ended: "
+    var text = "Round " + gameState.roundCounter + " has ended: ";
+    scrollText(text,h2El);
+    //h2El.textContent = "Round " + gameState.roundCounter + " has ended: "
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
-    pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
+    var text = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
+    //pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
+    scrollText(text,pEl);
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
-    pEl.textContent = "Your current score is: " + gameState.playerScore + " points.";
+    //pEl.textContent = "Your current score is: " + gameState.playerScore + " points.";
+    var text = "Your current score is: " + gameState.playerScore + " points.";
+    scrollText(text,pEl)
     quizContainerEl.appendChild(pEl);    
 
     var buttonEl = document.createElement("button");
@@ -530,10 +601,12 @@ var endRound = function(){
     
 }
 
+
 var updateGameState = function(isCorrect){
     gameState.answerWasCorrect  = isCorrect;
+    var index = gameState.previousQuestionNumber;
     if(isCorrect){
-        var attackBonus = quizQuestions[gameState.questionCounter-1].pointValueForCorrectAnswer;
+        var attackBonus = quizQuestions[index].pointValueForCorrectAnswer;
         gameState.thisQuestionPlayerAttack = gameState.playerAttack + attackBonus;
         gameState.opponentHealth -= gameState.thisQuestionPlayerAttack;
         if(gameState.opponentHealth <= 0){
@@ -542,7 +615,7 @@ var updateGameState = function(isCorrect){
         }
     }
     else{
-        var attackBonus = quizQuestions[gameState.questionCounter-1].pointValueForIncorrectAnswer;
+        var attackBonus = quizQuestions[index].pointValueForIncorrectAnswer;
         gameState.thisQuestionOpponentAttack = gameState.opponentAttack + attackBonus;
         gameState.playerHealth -= gameState.thisQuestionOpponentAttack;
         if(gameState.playerHealth <= 0){
@@ -561,6 +634,7 @@ mainEl.addEventListener("click",function(event){
     if(event.target.className == "quiz-answer"){
         if(event.target.getAttribute("data-correctness") === "correct"){
             //correct answer
+            console.log(event.target.textContent);
             updateGameState(true);
         }
         else{
@@ -573,6 +647,7 @@ mainEl.addEventListener("click",function(event){
         setRoundState();
         getOpponentImage();
         var index = Math.floor(Math.random()*quizQuestions.length);
+        gameState.previousQuestionNumber = index;
         buildQuizQuestion(index);
     }
     else if (event.target.id == "high-score-btn"){
@@ -608,6 +683,11 @@ mainEl.addEventListener("click",function(event){
                 showMonsterImage();
             }
             var index = Math.floor(Math.random()*quizQuestions.length);
+            while(index == gameState.previousQuestionNumber){
+                index = Math.floor(Math.random()*quizQuestions.length);
+                console.log(index);
+            }
+            gameState.previousQuestionNumber = index;
             buildQuizQuestion(index); 
         }
     }
