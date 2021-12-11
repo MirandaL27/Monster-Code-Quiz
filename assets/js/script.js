@@ -368,6 +368,8 @@ var saveHighScore = function(){
     }
     highScores.push(obj);
     localStorage.setItem("monster-high-scores",JSON.stringify(highScores));
+    document.getElementById("high-score-btn").style.display="none";
+    
 }
 
 var displayHighScores = function(){
