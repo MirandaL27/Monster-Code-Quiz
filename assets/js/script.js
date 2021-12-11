@@ -136,6 +136,7 @@ var buildStartScreen = function(){
     //basic instructions
     resetGameState();
     resetContainerElement();
+    hideMonsterImage();
     var h2El = document.createElement("h2");
     //h2El.textContent = "Monster Code Quiz"
     scrollText("Directions:",h2El);
@@ -339,6 +340,7 @@ var clearHighScores = function(){
 var buildHighScoreScreen  = function(){
     //high score list from localstorage
     resetContainerElement();
+    hideMonsterImage();
     displayHighScores();
 
     var buttonEl = document.createElement("button");
@@ -368,6 +370,8 @@ var saveHighScore = function(){
     }
     highScores.push(obj);
     localStorage.setItem("monster-high-scores",JSON.stringify(highScores));
+    document.getElementById("high-score-btn").style.display="none";
+    
 }
 
 var displayHighScores = function(){
