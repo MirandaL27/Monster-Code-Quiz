@@ -45,7 +45,7 @@ var gameState  = {
 var resetContainerElement = function(){
     quizContainerEl.remove();
     quizContainerEl = document.createElement("section");
-    quizContainerEl.className = "game-container";
+    quizContainerEl.className = "game-container has-text-left";
     mainEl.appendChild(quizContainerEl);
     document.getElementById("confetti").style.display="none";
     document.getElementById("thumbs-down").style.display="none";
@@ -450,6 +450,7 @@ var resetOpponentImage = function(){
     var imageContainer = document.querySelector("#monster-image");
     imageContainer.remove();
     var imageContainer = document.createElement("div");
+    imageContainer.className="has-text-centered";
     imageContainer.id = "monster-image";
     mainEl.appendChild(imageContainer);
 }
