@@ -459,46 +459,82 @@ var getOpponentImage = function(){
 
 var listQuizQuestions = function(){
     //add questions to the quiz here!
+        //Q-1
     var q = new question();
     q.text = "What does HTML stand for?"
-    q.pointValueForCorrectAnswer = 10;
-    q.pointValueForIncorrectAnswer = 20;
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer = 15;
     q.answers = [new answer("Hypertext Markup Language","correct"), new answer("Hypertext Mark Language","incorrect"), new answer("Hyphentext Markdown Language","incorrect"), new answer("Hypertext Markdown Language","incorrect")];
     quizQuestions.push(q);
-
+        //Q-2
     var q = new question();
     q.text = "What does || stand for?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("And","incorrect"), new answer("Not","incorrect"), new answer("Or","correct"), new answer("Is Less Than","incorrect")];
     quizQuestions.push(q);
-
+        //Q-3
     var q = new question();
     q.text = "Which of the following answers is shorthand for i = i + 1?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("i--","incorrect"), new answer("i++","correct"), new answer("i+=1","correct"), new answer("i-=1","incorrect")];
     quizQuestions.push(q);
-
+        //Q-4
     var q = new question();
     q.text = "Which of the following is a primitive type?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("String","correct"), new answer("Array","incorrect"), new answer("Function","incorrect"), new answer("Object","incorrect")];
     quizQuestions.push(q);
-
+        //Q-5
     var q = new question();
     q.text = "Which property can be used to change the background color of an HTML element?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("background-color","correct"), new answer("color","incorrect"), new answer("background-image","incorrect"), new answer("background-size","incorrect")];
     quizQuestions.push(q);
-
+        //Q=6
     var q = new question();
     q.text = "Which flexbox property changes the html elements so that they line up vertically instead of horizontally?"
-    q.pointValueForCorrectAnswer = 15;
+    q.pointValueForCorrectAnswer = 12;
     q.pointValueForIncorrectAnswer  = 15;
     q.answers = [new answer("flex-direction","correct"), new answer("align-items","incorrect"), new answer("display: flex","incorrect"), new answer("justify-content","incorrect")];
+    quizQuestions.push(q);
+        //Q-7
+    var q = new question();
+    q.text = "The syntax of a blur method in a button object is ______?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Blur(depth)","incorrect"), new answer("Blur(contrast)","incorrect"), new answer("Blur(value)","incorrect"), new answer("Blur()","correct")];
+    quizQuestions.push(q);
+        //Q-8
+    var q = new question();
+    q.text = "Which best explains getSelection()?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Returns the VALUE of a selected OPTION.","incorrect"), new answer("Returns the value of cursor-selected text","correct"), new answer("Returns document.URL of the window in focus.","incorrect"), new answer("Returns the VALUE of a checked radio input.","incorrect")];
+    quizQuestions.push(q);
+        //Q-9
+    var q = new question();
+    q.text = "How to create a Date object in JavaScript?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("dateObjectName Date([parameters])","incorrect"), new answer("dateObjectName.new Date([parameters])","incorrect"), new answer("dateObjectName = new Date([parameters])","correct"), new answer("dateObjectName := new Date([parameters])","incorrect")];
+    quizQuestions.push(q);
+        //Q-10
+    var q = new question();
+    q.text = "What are variables used for in JavaScript Programs?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Storing numbers, dates, or other values","correct"), new answer("Varying randomly","incorrect"), new answer("Causing high-school algebra flashbacks","incorrect"), new answer("None of the above","incorrect")];
+    quizQuestions.push(q);
+        //Q-11
+    var q = new question();
+    q.text = "Which of the following are capabilities of functions in JavaScript?"
+    q.pointValueForCorrectAnswer = 12;
+    q.pointValueForIncorrectAnswer  = 15;
+    q.answers = [new answer("Return a value","incorrect"), new answer("Accept parameters and Return a value","incorrect"), new answer("Accept parameters","correct"), new answer("None of the above","incorrect")];
     quizQuestions.push(q);
 }
 
