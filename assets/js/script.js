@@ -90,15 +90,14 @@ var buildSettingsScreen = function(){
     resetContainerElement();
     var scrollSpeed = scrollSpeedValue();
     var h2El = document.createElement("h2");
-    //h2El.textContent = "Settings:"
     scrollText("Settings:",h2El);
     quizContainerEl.appendChild(h2El);
     var selectEl = document.createElement("select");
     selectEl.id = "scroll-speed";
+    selectEl.className = "is-rounded has-background-success p-2 mt-5"
     console.log(selectEl.value);
     var label = document.createElement("label");
     label.for = "scroll-speed";
-    //label.textContent = "Scroll Speed ";
     scrollText("Scroll Speed ",label);
     quizContainerEl.appendChild(label);
     quizContainerEl.appendChild(selectEl);
@@ -127,11 +126,13 @@ var buildSettingsScreen = function(){
     }
     selectEl.appendChild(optionEl);
 
+    var divEl = document.createElement("div");
     var buttonEl = document.createElement("button");
     buttonEl.textContent = "Go Back";
     buttonEl.className = "back-btn button is-rounded has-background-success p-2 mt-5";
     buttonEl.id = "back-btn";
-    quizContainerEl.appendChild(buttonEl);
+    divEl.appendChild(buttonEl);
+    quizContainerEl.appendChild(divEl);
 }
 
 var buildStartScreen = function(){
@@ -141,7 +142,6 @@ var buildStartScreen = function(){
     resetContainerElement();
     hideMonsterImage();
     var h2El = document.createElement("h2");
-    //h2El.textContent = "Monster Code Quiz"
     scrollText("Directions:",h2El);
     h2El.className = "mb-5"
     quizContainerEl.appendChild(h2El);
@@ -179,19 +179,16 @@ var displayGameState = function(){
     var h2El = document.createElement("h2");
     var text = "Round " + gameState.roundCounter + " Update:"
     scrollText(text,h2El);
-    //h2El.textContent = "Round " + gameState.roundCounter + " Update:"
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
         scrollText("You answered correctly! ",pEl);
-        //pEl.textContent = "You answered correctly! ";
         //display confetti
        document.getElementById("confetti").style.display="block";
     }
     else{
         scrollText("You answered incorrectly! ",pEl);
-        //pEl.textContent = "You answered incorrectly!";
         //display thumbs down
         document.getElementById("thumbs-down").style.display="block";
        
@@ -199,20 +196,17 @@ var displayGameState = function(){
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
-    //pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
     var text = "You have " + Math.max(gameState.playerHealth, 0) + " health points left.";
     scrollText(text,pEl);
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
-        //pEl.textContent = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
         var text = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
         scrollText(text,pEl);
         document.getElementById("smiley").style.display="block";
     }
     else{
-        //pEl.textContent = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
         var text = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
         scrollText(text,pEl);
         document.getElementById("monster-man").style.display="block";
@@ -237,29 +231,25 @@ var buildGameOverScreen = function(isGameOver){
     if(isGameOver){
         var h2El = document.createElement("h2");
         scrollText("Game Over",h2El);
-        //h2El.textContent = "Game Over";
         quizContainerEl.appendChild(h2El);
 
         var pEl = document.createElement("p");
-        //pEl.textContent = "You were defeated!"
         scrollText("You were defeated!",pEl);
         quizContainerEl.appendChild(pEl);
         document.getElementById("headstone").style.display="block";
         
 
         pEl = document.createElement("p");
-        //pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         var text = "Your current score is " + gameState.playerScore + " points.";
         scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
 
         var labelEl = document.createElement("label");
         labelEl.for = "initials-input";
-        //labelEl.textContent = "Enter Initials";
         scrollText("Enter Initials",labelEl);
         var inputEl = document.createElement("input");
         inputEl.type = "text";
-        inputEl.className = "initials-input";
+        inputEl.className = "initials-input is-rounded has-background-success p-2 mt-5";
         inputEl.id = "initials-input";
         quizContainerEl.appendChild(labelEl);
         quizContainerEl.appendChild(inputEl);
@@ -268,13 +258,11 @@ var buildGameOverScreen = function(isGameOver){
         highScoreButtonEl.textContent = "Submit Score";
         highScoreButtonEl.className = "high-score-btn button is-rounded has-background-success p-2 mt-5";
         highScoreButtonEl.id = "high-score-btn";
-        // quizContainerEl.appendChild(highScoreButtonEl);
 
         var viewHighScoreButtonEl = document.createElement("button");
         viewHighScoreButtonEl.textContent = "View High Scores";
         viewHighScoreButtonEl.className = "view-high-score-btn button is-rounded has-background-success p-2 mt-5";
         viewHighScoreButtonEl.id = "view-high-score-btn";
-        // quizContainerEl.appendChild(viewHighScoreButtonEl);
 
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Try Again";
@@ -290,28 +278,24 @@ var buildGameOverScreen = function(isGameOver){
     else{
 
         var h2El = document.createElement("h2");
-        //h2El.textContent = "The game has ended";
         scrollText("The game has ended",h2El);
         quizContainerEl.appendChild(h2El);
 
         var pEl = document.createElement("p");
-        //pEl.textContent = "You defeated the enemies!"
         scrollText("You defeated the enemies!",pEl);
         quizContainerEl.appendChild(pEl);
 
         pEl = document.createElement("p");
-        //pEl.textContent = "Your current score is " + gameState.playerScore + " points."
         var text = "Your current score is " + gameState.playerScore + " points.";
         scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
 
         var labelEl = document.createElement("label");
         labelEl.for = "initials-input";
-        //labelEl.textContent = "Enter Initials";
         scrollText("Enter Initials",labelEl);
         var inputEl = document.createElement("input");
         inputEl.type = "text";
-        inputEl.className = "initials-input";
+        inputEl.className = "initials-input is-rounded has-background-success p-2 mt-5";
         inputEl.id = "initials-input";
         quizContainerEl.appendChild(labelEl);
         quizContainerEl.appendChild(inputEl);
@@ -320,13 +304,11 @@ var buildGameOverScreen = function(isGameOver){
         highScoreButtonEl.textContent = "Submit Score";
         highScoreButtonEl.className = "high-score-btn button is-rounded has-background-success p-2 mt-5";
         highScoreButtonEl.id ="high-score-btn";
-        // quizContainerEl.appendChild(highScoreButtonEl);
 
         var viewHighScoreButtonEl = document.createElement("button");
         viewHighScoreButtonEl.textContent = "View High Scores";
         viewHighScoreButtonEl.className = "view-high-score-btn button is-rounded has-background-success p-2 mt-5";
         viewHighScoreButtonEl.id ="view-high-score-btn";
-        // quizContainerEl.appendChild(viewHighScoreButtonEl);
 
         var buttonEl = document.createElement("button");
         buttonEl.textContent = "Play Again";
@@ -412,7 +394,6 @@ var displayHighScores = function(){
 
     for(var i = 0; i < highScores.length; i++){
         var pEl = document.createElement("p");
-        //pEl.textContent = highScores[i].initials + "    " + highScores[i].score;
         var text = highScores[i].initials + "    " + highScores[i].score;
         scrollText(text,pEl);
         quizContainerEl.appendChild(pEl);
@@ -426,19 +407,16 @@ var buildQuizQuestion = function(questionIndex){
     resetContainerElement();
     var h2El = document.createElement("h2");
     var text = "Question " + gameState.questionCounter + ": ";
-    //h2El.textContent = 
     scrollText(text,h2El);
     quizContainerEl.appendChild(h2El);
 
     var questionPEl = document.createElement("p");
-    //questionPEl.textContent = quizQuestions[questionIndex].text;
     scrollText(quizQuestions[questionIndex].text,questionPEl);
     questionPEl.className = "quiz-question";
     quizContainerEl.appendChild(questionPEl);
 
     for(var i =0; i<quizQuestions[questionIndex].answers.length; i++){
         var answerPEl = document.createElement("p");
-        //answerPEl.textContent = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
         var text = (i+1)+". " +quizQuestions[questionIndex].answers[i].text;
         scrollText(text,answerPEl);
         answerPEl.className = "quiz-answer";
@@ -578,17 +556,14 @@ var endRound = function(){
     var h2El = document.createElement("h2");
     var text = "Round " + gameState.roundCounter + " has ended: ";
     scrollText(text,h2El);
-    //h2El.textContent = "Round " + gameState.roundCounter + " has ended: "
     quizContainerEl.appendChild(h2El);
 
     var pEl = document.createElement("p");
     var text = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
-    //pEl.textContent = "You have " + Math.max(gameState.playerHealth, 0) + " hit points left.";
     scrollText(text,pEl);
     quizContainerEl.appendChild(pEl);
 
     var pEl = document.createElement("p");
-    //pEl.textContent = "Your current score is: " + gameState.playerScore + " points.";
     var text = "Your current score is: " + gameState.playerScore + " points.";
     scrollText(text,pEl)
     quizContainerEl.appendChild(pEl);    
