@@ -33,7 +33,7 @@
         </div>
         <!--confetti-->
         <div id="correct-modal" class="modal is-hidden is-flex is-flex-direction-row is-justify-content-center">
-            <div class="modal-background">
+            <div class="modal-background"><div class="modal-content has-background-success">
                     <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
                         colors="primary:#121331,secondary:#08a88a" style="width:250px;height:250px">
                     </lord-icon>
@@ -44,10 +44,11 @@
                     </lord-icon>
                     <p>Your Answer was correct!</p>
                     <button class="ok-button">OK</button>
-                </div></div>
+                </div></div></div>
             
                 <div id="wrong-modal" class="modal is-hidden is-flex is-flex-direction-row is-justify-content-center">
                     <div class="modal-background">
+                        <div class="modal-content has-background-danger">
             <!--thumbs-down-->
             
                 <lord-icon src="https://cdn.lordicon.com/hrqwmuhr.json" trigger="loop"
@@ -61,7 +62,7 @@
                 </lord-icon>
                 <p>Your Answer was incorrect!</p>
                 <button class="ok-button-2">OK</button>
-            
+            </div>
         </div>
     </div>
 </div>
