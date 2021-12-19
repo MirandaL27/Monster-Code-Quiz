@@ -1,6 +1,8 @@
 var quizContainerEl = document.querySelector(".game-container");
 var highScoreLinkEl = document.querySelector(".high-score-link");
 var settingsLinkEl = document.querySelector(".settings-link");
+var okButton = document.querySelector(".ok-button");
+var okButtonTwo = document.querySelector(".ok-button-2");
 var mainEl = document.querySelector("main");
 class answer {
     text;
@@ -47,10 +49,10 @@ var resetContainerElement = function(){
     quizContainerEl = document.createElement("section");
     quizContainerEl.className = "game-container has-text-left";
     mainEl.appendChild(quizContainerEl);
-    document.getElementById("confetti").style.display="none";
-    document.getElementById("thumbs-down").style.display="none";
-    document.getElementById("monster-man").style.display="none";
-    document.getElementById("smiley").style.display="none";
+    // document.getElementById("correct").style.display="none";
+    // document.getElementById("thumbs-down").style.display="none";
+    // document.getElementById("monster-man").style.display="none";
+    // document.getElementById("smiley").style.display="none";
     document.getElementById("headstone").style.display="none";
     document.getElementById("medal").style.display="none";
     
@@ -184,13 +186,15 @@ var displayGameState = function(){
     var pEl = document.createElement("p");
     if(gameState.answerWasCorrect){
         scrollText("You answered correctly! ",pEl);
+        document.getElementById("correct-modal").className="modal is-active is-flex is-flex-direction-row is-justify-content-center";
         //display confetti
-       document.getElementById("confetti").style.display="block";
+    //    document.getElementById("confetti").style.display="block";
     }
-    else{
+    else{ 
         scrollText("You answered incorrectly! ",pEl);
         //display thumbs down
-        document.getElementById("thumbs-down").style.display="block";
+        document.getElementById("wrong-modal").className="modal is-active is-flex is-flex-direction-row is-justify-content-center";
+        // document.getElementById("thumbs-down").style.display="block";
        
     }
     quizContainerEl.appendChild(pEl);
@@ -204,12 +208,12 @@ var displayGameState = function(){
     if(gameState.answerWasCorrect){
         var text = "You attacked the monster doing " + gameState.thisQuestionPlayerAttack + " points in damage.";
         scrollText(text,pEl);
-        document.getElementById("smiley").style.display="block";
+        // document.getElementById("smiley").style.display="block";
     }
     else{
         var text = "The monster attacked you doing " + gameState.thisQuestionOpponentAttack + " points in damage.";
         scrollText(text,pEl);
-        document.getElementById("monster-man").style.display="block";
+        // document.getElementById("monster-man").style.display="block";
     }
     quizContainerEl.appendChild(pEl);
 
@@ -610,6 +614,7 @@ mainEl.addEventListener("click",function(event){
     if(event.target.className == "quiz-answer"){
         if(event.target.getAttribute("data-correctness") === "correct"){
             //correct answer
+            // document.getElementById("correct-modal").className="modal is-active is-flex is-flex-direction-row is-justify-content-center";
             console.log(event.target.textContent);
             updateGameState(true);
         }
@@ -618,6 +623,7 @@ mainEl.addEventListener("click",function(event){
             updateGameState(false);
         }
         displayGameState();
+        // document.getElementById("correct-modal").className="modal is-active is-flex is-flex-direction-row is-justify-content-center";
     } 
     else if(event.target.id == "start-btn"){
         setRoundState();
@@ -693,6 +699,14 @@ highScoreLinkEl.addEventListener("click", function(){
 
 settingsLinkEl.addEventListener("click", function(){
     buildSettingsScreen();
+});
+
+okButton.addEventListener("click", function(){
+    document.getElementById("correct-modal").className="modal is-hidden is-flex is-flex-direction-row is-justify-content-center";
+});
+
+okButtonTwo.addEventListener("click", function(){
+    document.getElementById("wrong-modal").className="modal is-hidden is-flex is-flex-direction-row is-justify-content-center"
 });
 
 loadHighScores();

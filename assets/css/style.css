@@ -17,7 +17,9 @@ main {
 #back-btn,
 #clear-btn,
 #scroll-speed,
-#initials-input {
+#initials-input,
+.ok-button,
+.ok-button-2 {
   font-family: "Press Start 2P", cursive;
 }
 
